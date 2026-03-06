@@ -20,11 +20,11 @@ function CreateArea(props) {
         [name]: value
       };
     });
-    if (!value) {
-      setShowButton(false);
-    } else {
+     (!value) ? 
+      setShowButton(false)
+     : 
       setShowButton(true);
-    }
+    
   }
 
 
@@ -37,7 +37,7 @@ function handleSubmit(event) {
     content: "",
     summary: ""
   });
-  
+  setShowButton(false);
 }
   
   return (

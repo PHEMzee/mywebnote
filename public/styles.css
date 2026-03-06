@@ -8,11 +8,11 @@ html {
 }
 body {
   background: #eee;
-  padding: 0 16px;
+  padding: 0;
 }
 
 header {
-  background-color: #f5ba13;
+  background-color: #13c8f5;
   margin: auto -16px;
   padding: 16px 32px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
@@ -40,7 +40,7 @@ footer p {
   border-radius: 7px;
   box-shadow: 0 2px 5px #ccc;
   padding: 10px;
-  width: 240px;
+  /* width: 240px; */
   margin: 16px;
   float: left;
   position: relative;

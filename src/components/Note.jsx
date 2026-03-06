@@ -27,6 +27,8 @@ function Note({ id, title, keyPoint, content, summary, deleteNote }) {
 }));
 
   return (
+        <article className="note">
+
     <Paper>
       <Container>
         <Box
@@ -38,27 +40,24 @@ function Note({ id, title, keyPoint, content, summary, deleteNote }) {
           }}
         >
           <Grid container spacing={0} minHeight={'100%'}>
-            <React.Fragment style={{ alignSelf: 'top' }}>
               <Grid size={4}>
                 <Item
                   style={{
-                    height: '50px',
                     justifyItems: 'center',
                     textAlign: 'center',
                   }}
                 >
-                  {' '}
-                  {/* <span style={{ fontSize: '1.1rem' }}>🟃🟃🟃🟃🟃</span> */}
-                  <h2 style={{ margin: '0' }}>Key Points</h2>
+                  <span style={{ fontSize: '1.1rem', margin: '0' }}>🟃🟃🟃🟃🟃</span>
+                  <h2 style={{ margin: '0' }}>Key Point</h2>
                 </Item>
               </Grid>
               <Grid size={8}>
-                <Item style={{ height: '50px' }}>
-                  <h2 style={{ margin: '0' }}>Title:</h2><span> {title}</span>
+                <Item>
+                  <h2 style={{ margin: '0' }}>Title: <span> {title}</span></h2>
                   <h4 style={{ margin: '0' }}>Introduction:</h4>
                 </Item>
-              </Grid>{' '}
-            </React.Fragment>
+              </Grid>
+
             <Grid size={4}>
               <Item style={{ minHeight: '300px' }}>
                 <span> {keyPoint}</span>
@@ -84,29 +83,21 @@ function Note({ id, title, keyPoint, content, summary, deleteNote }) {
               </Item>
             </Grid>
           </Grid>
+
+        <button
+          type="button"
+          className="delete-button"
+          onClick={handleDelete}
+          aria-label="Delete note"
+        >
+          🗑️
+        </button>
         </Box>
       </Container>
     </Paper>
 
-    // <article className="note">
-    //   <header className="note-header">
-    //     <h2>{title}</h2>
-    //   </header>
-    //   <section className="note-body">
-    //     <h3>{keyPoint}</h3>
-    //     <p>{content}</p>
-    //   </section>
-    //   <footer className="note-footer">
-    //     <button
-    //       type="button"
-    //       className="delete-button"
-    //       onClick={handleDelete}
-    //       aria-label="Delete note"
-    //     >
-    //       🗑️
-    //     </button>
-    //   </footer>
-    // </article>
+
+    </article>
   );
 }
 
