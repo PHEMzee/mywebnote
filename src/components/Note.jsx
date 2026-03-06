@@ -1,24 +1,121 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 
-function Note(props) {
+function Note({ id, title, keyPoint, content, summary, deleteNote }) {
   const handleDelete = (e) => {
-    props.deleteNote(props.id)
-e.preventDefault();
-  }
+    e.preventDefault();
+    deleteNote(id);
+  };
+
+  const Item = styled(Paper)(({ theme }) => ({
+  borderRadius: '0',
+  textalign: 'left',
+  border: 'solid, 0.05em',
+  backgroundColor: '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(0.5),
+  textAlign: 'left',
+  color: (theme.vars ?? theme).palette.text.secondary,
+  ...theme.applyStyles('dark', {
+    backgroundColor: '#1A2027',
+  }),
+}));
+
   return (
-    <div className="note">
-      <table>
-        <tr>
-          <th>{props.title}</th>
-        </tr>
-        <tr>
-          <td><h3>{props.keyPoint}</h3></td>
-          <td><p>{props.content}</p></td>
-        </tr>
-      </table>
-      <button type="button" className="delete-button" onClick={handleDelete}>🗑️</button>
-    </div>
+    <Paper>
+      <Container>
+        <Box
+          sx={{
+            bgcolor: '#cfe8fc',
+            maxWidth: '480px',
+            minHeight: '100%',
+            border: '1px, solid',
+          }}
+        >
+          <Grid container spacing={0} minHeight={'100%'}>
+            <React.Fragment style={{ alignSelf: 'top' }}>
+              <Grid size={4}>
+                <Item
+                  style={{
+                    height: '50px',
+                    justifyItems: 'center',
+                    textAlign: 'center',
+                  }}
+                >
+                  {' '}
+                  {/* <span style={{ fontSize: '1.1rem' }}>🟃🟃🟃🟃🟃</span> */}
+                  <h2 style={{ margin: '0' }}>Key Points</h2>
+                </Item>
+              </Grid>
+              <Grid size={8}>
+                <Item style={{ height: '50px' }}>
+                  <h2 style={{ margin: '0' }}>Title:</h2><span> {title}</span>
+                  <h4 style={{ margin: '0' }}>Introduction:</h4>
+                </Item>
+              </Grid>{' '}
+            </React.Fragment>
+            <Grid size={4}>
+              <Item style={{ minHeight: '300px' }}>
+                <span> {keyPoint}</span>
+                {/* <textarea name="" id="" cols="16" rows="20"></textarea> */}
+              </Item>
+            </Grid>
+            <Grid size={8}>
+              <Item style={{ minHeight: '300px' }}>
+                {/* <textarea name="" id="" cols="36" rows="20"></textarea> */}
+                <span> {content}</span>  
+              </Item>
+            </Grid>
+            <Grid size={12}>
+              <Item style={{ minHeight: '100px' }}>
+                <h2 style={{ margin: '0' }}>Summary:</h2>
+                <span
+                  style={{ width: '100%' }}
+                  name=""
+                  id=""
+                  // cols="55"
+                  // rows="5"
+                >{summary}</span>
+              </Item>
+            </Grid>
+          </Grid>
+        </Box>
+      </Container>
+    </Paper>
+
+    // <article className="note">
+    //   <header className="note-header">
+    //     <h2>{title}</h2>
+    //   </header>
+    //   <section className="note-body">
+    //     <h3>{keyPoint}</h3>
+    //     <p>{content}</p>
+    //   </section>
+    //   <footer className="note-footer">
+    //     <button
+    //       type="button"
+    //       className="delete-button"
+    //       onClick={handleDelete}
+    //       aria-label="Delete note"
+    //     >
+    //       🗑️
+    //     </button>
+    //   </footer>
+    // </article>
   );
 }
+
+Note.propTypes = {
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  title: PropTypes.string.isRequired,
+  keyPoint: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  deleteNote: PropTypes.func.isRequired,
+};
 
 export default Note;

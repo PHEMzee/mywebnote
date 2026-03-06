@@ -2,12 +2,13 @@ import React, {useState} from "react";
 
 
 function CreateArea(props) {
-  const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const [showButton, setShowButton] = useState(false);
   const [note, setNote] = useState([
     {
       title: "",
       keyPoint: "",
-      content: ""
+      content: "",
+      summary: ""
     }
   ]);
 
@@ -20,21 +21,22 @@ function CreateArea(props) {
       };
     });
     if (!value) {
-      setIsButtonClicked(false);
+      setShowButton(false);
     } else {
-      setIsButtonClicked(true);
+      setShowButton(true);
     }
   }
 
 
 function handleSubmit(event) { 
   props.addNote(note);
+  event.preventDefault();
   setNote({
     title: "",
     keyPoint: "",
-    content: ""
+    content: "",
+    summary: ""
   });
-  event.preventDefault();
   
 }
   
@@ -45,7 +47,9 @@ function handleSubmit(event) {
         <input type="text" name="keyPoint"
           placeholder="Key Points" 
         value={note.keyPoint} onChange={handleChange}/>
-        <textarea name="content" placeholder="Take a note..." rows="3" value={note.content} onChange={handleChange} />{isButtonClicked && <button type="button" className={isButtonClicked ? "fly-in" : "fly-out"} onClick={handleSubmit}>Add</button>}
+        <textarea name="content" placeholder="Take a note..." rows="3" value={note.content} onChange={handleChange} />
+        <textarea name="summary" placeholder="Summary" rows="2" value={note.summary} onChange={handleChange} />
+        {showButton && <button type="button" className={showButton ? "fly-in" : "fly-out"} onClick={handleSubmit}>Add</button>}
       </form>
     </div>
   );
