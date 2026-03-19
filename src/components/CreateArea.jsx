@@ -3,14 +3,12 @@ import React, {useState} from "react";
 
 function CreateArea(props) {
   const [showButton, setShowButton] = useState(false);
-  const [note, setNote] = useState([
-    {
-      title: "",
-      keyPoint: "",
-      content: "",
-      summary: ""
-    }
-  ]);
+  const [note, setNote] = useState({
+    title: "",
+    keyPoint: "",
+    content: "",
+    summary: ""
+  });
 
   function handleChange(event) {
     const {name, value} = event.target;

@@ -34,8 +34,9 @@ function Note({ id, title, keyPoint, content, summary, deleteNote }) {
         <Box
           sx={{
             bgcolor: '#cfe8fc',
-            maxWidth: '480px',
-            minHeight: '100%',
+            // maxWidth: '480px',
+            width: '320px',
+            // minHeight: '100%',
             border: '1px, solid',
           }}
         >
