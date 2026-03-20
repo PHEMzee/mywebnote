@@ -7,15 +7,22 @@ import CreateArea from "./CreateArea";
 
 function App() {
   const [notes, setNotes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const API_BASE = "/"; // using proxy in package.json
 
   useEffect(() => {
     async function loadNotes() {
+      setLoading(true);
+      setError("");
       try {
         const response = await axios.get(`${API_BASE}notes`);
         setNotes(response.data);
       } catch (error) {
         console.error('Error fetching notes:', error);
+        setError(error?.response?.data?.message || error.message || 'Failed to fetch notes.');
+      } finally {
+        setLoading(false);
       }
     }
     loadNotes();
@@ -44,6 +51,9 @@ function App() {
       <Header />
       <main>
         <CreateArea addNote={addNote} />
+        {loading && <p>Loading notes...</p>}
+        {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+        {!loading && !error && notes.length === 0 && <p>No notes found.</p>}
         {notes.map((note) => (
           <Note
             key={note._id}

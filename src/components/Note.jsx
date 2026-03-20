@@ -5,26 +5,24 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
+import ClearIcon from '@mui/icons-material/Clear';
+
+const Item = styled(Paper)(({ theme }) => ({
+  borderRadius: '0',
+  border: '0.05em solid',
+  backgroundColor: '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(0.5),
+  textAlign: 'left',
+  color: (theme.vars ?? theme).palette.text.secondary,
+  ...((theme.applyStyles && theme.applyStyles('dark')) || {}),
+}));
 
 function Note({ id, title, keyPoint, content, summary, deleteNote }) {
   const handleDelete = (e) => {
     e.preventDefault();
     deleteNote(id);
   };
-
-  const Item = styled(Paper)(({ theme }) => ({
-  borderRadius: '0',
-  textalign: 'left',
-  border: 'solid, 0.05em',
-  backgroundColor: '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(0.5),
-  textAlign: 'left',
-  color: (theme.vars ?? theme).palette.text.secondary,
-  ...theme.applyStyles('dark', {
-    backgroundColor: '#1A2027',
-  }),
-}));
 
   return (
         <article className="note">
@@ -91,7 +89,7 @@ function Note({ id, title, keyPoint, content, summary, deleteNote }) {
           onClick={handleDelete}
           aria-label="Delete note"
         >
-          🗑️
+          <ClearIcon />
         </button>
         </Box>
       </Container>

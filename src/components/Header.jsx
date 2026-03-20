@@ -1,9 +1,10 @@
 import React from "react";
+import NoteAltIcon from '@mui/icons-material/NoteAlt';
 
 function Header() {
     
 return <header>
-        <h1>My WebNote✍🖎</h1>
+        <h1>My WebNote<NoteAltIcon /></h1>
     </header>
 }
 
