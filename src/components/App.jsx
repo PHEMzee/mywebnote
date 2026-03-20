@@ -59,7 +59,7 @@ function App() {
             key={note._id}
             id={note._id}
             title={note.title}
-            keyPoint={note.keyPoint}
+            keyPoints={note.keyPoints || []}
             content={note.content}
             summary={note.summary}
             deleteNote={deleteNote}

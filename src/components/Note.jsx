@@ -18,7 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
   ...((theme.applyStyles && theme.applyStyles('dark')) || {}),
 }));
 
-function Note({ id, title, keyPoint, content, summary, deleteNote }) {
+function Note({ id, title, keyPoints, content, summary, deleteNote }) {
   const handleDelete = (e) => {
     e.preventDefault();
     deleteNote(id);
@@ -59,8 +59,16 @@ function Note({ id, title, keyPoint, content, summary, deleteNote }) {
 
             <Grid size={4}>
               <Item style={{ minHeight: '300px' }}>
-                <span> {keyPoint}</span>
-                {/* <textarea name="" id="" cols="16" rows="20"></textarea> */}
+                <h4 style={{ marginTop: 0 }}>Key Points</h4>
+                {keyPoints && keyPoints.length > 0 ? (
+                  <ul>
+                    {keyPoints.map((point, idx) => (
+                      <li key={`${id}-kp-${idx}`}>{point}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p style={{ fontStyle: 'italic' }}>No key points added</p>
+                )}
               </Item>
             </Grid>
             <Grid size={8}>
@@ -102,10 +110,18 @@ function Note({ id, title, keyPoint, content, summary, deleteNote }) {
 
 Note.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  title: PropTypes.string.isRequired,
-  keyPoint: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  keyPoints: PropTypes.arrayOf(PropTypes.string),
+  content: PropTypes.string,
+  summary: PropTypes.string,
   deleteNote: PropTypes.func.isRequired,
+};
+
+Note.defaultProps = {
+  title: '',
+  keyPoints: [],
+  content: '',
+  summary: '',
 };
 
 export default Note;
