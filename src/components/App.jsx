@@ -4,6 +4,7 @@ import Note from "./Note";
 import Header from "./Header";
 import Footer from "./Footer";
 import CreateArea from "./CreateArea";
+import Grid from '@mui/material/Grid';
 
 function App() {
   const [notes, setNotes] = useState([]);
@@ -55,15 +56,18 @@ function App() {
         {error && <p style={{ color: 'red' }}>Error: {error}</p>}
         {!loading && !error && notes.length === 0 && <p>No notes found.</p>}
         {notes.map((note) => (
-          <Note
-            key={note._id}
-            id={note._id}
-            title={note.title}
-            keyPoints={note.keyPoints || []}
-            content={note.content}
-            summary={note.summary}
-            deleteNote={deleteNote}
-          />
+            <Grid Container>
+              
+              <Note
+                key={note._id}
+                id={note._id}
+                title={note.title}
+                keyPoints={note.keyPoints || []}
+                content={note.content}
+                summary={note.summary}
+                deleteNote={deleteNote}
+              />
+            </Grid>
         ))}
       </main>
       <Footer />

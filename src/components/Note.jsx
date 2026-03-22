@@ -13,8 +13,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Divider from '@mui/material/Divider';
 
+import React, { useRef } from 'react';
+import { useReactToPrint } from 'react-to-print';
+
 const tableContainerSx = {
-  width: 360,
+  width: 450,
   whiteSpace: 'normal',
   wordBreak: 'break-word',
   border: '2px solid',
@@ -62,16 +65,21 @@ export default function Note({ id, title, keyPoints, content, summary, deleteNot
     e.preventDefault();
     deleteNote(id);
   };
- return (
+
+const contentRef = useRef(null);
+const handlePrint = useReactToPrint({ contentRef, documentTitle: `${title}-${new Date().toISOString().split('T')[0]}` });
+
+ return (    
     <Box
       sx={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'flex-start',
         position: 'relative',
+        marginBottom: '1em',
       }}
     >
-      <TableContainer component={Paper} sx={tableContainerSx}>
+      <TableContainer ref={contentRef} component={Paper} sx={tableContainerSx}>
         <Table sx={{ tableLayout: 'fixed' }}>
           <TableHead style={{ backgroundColor: '#13c8f5' }}>
             <TableRow>
@@ -148,7 +156,7 @@ export default function Note({ id, title, keyPoints, content, summary, deleteNot
         }}
       >
         <IconButton sx={{ p: 0, color: green[500] }}>
-          <FileDownloadIcon />
+          <FileDownloadIcon onClick={handlePrint} />
         </IconButton>
         <Divider />
         <IconButton sx={{ p: 0, color: red[500] }}>
