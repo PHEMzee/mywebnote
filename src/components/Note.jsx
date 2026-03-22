@@ -22,7 +22,6 @@ const tableContainerSx = {
   wordBreak: 'break-word',
   border: '2px solid',
   borderRadius: 5,
-  borderTopRightRadius: 0,
   overflow: 'hidden', // Ensures borders don't clip rounded corners
   borderColor: 'divider',
 };

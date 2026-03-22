@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import NoteTemplate from './NoteTemplate';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -18,10 +19,12 @@ function CreateArea(props) {
   const [currentPoint, setCurrentPoint] = useState('');
   const [pointAdded, setPointAdded] = useState("none");
   const [showButton, setShowButton] = useState(false);
+  const [noting, setNoting] = useState(false);
 
   const handleFieldChange = (event) => {
 setShowButton(true);
     const { name, value } = event.target;
+    setNoting(true);
     setNote((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -29,6 +32,7 @@ setShowButton(true);
 setShowButton(true);
     setCurrentPoint(event.target.value);
     setPointAdded("block");
+    setNoting(true);
   };
 
   const addKeyPoint = (event) => {
@@ -54,6 +58,7 @@ setShowButton(true);
     setNote({ title: '', keyPoints: [], content: '', summary: '' });
     setCurrentPoint('');
     setShowButton(false);
+    setNoting(false);
   };
 
   return (
@@ -79,18 +84,6 @@ setShowButton(true);
           
         </div>
 <Divider style={{ margin: '0.5rem 0' }} />
-        {note.keyPoints.length > 0 && (
-          <List>
-            {note.keyPoints.map((point, idx) => (
-              <ListItem key={`kp-${idx}`}>
-                <ListItemText primary={point} />
-                <ListItemIcon aria-label="delete" onClick={() => removeKeyPoint(idx)} >
-  <DeleteIcon fontSize="inherit" />
-                </ListItemIcon>
-              </ListItem>
-            ))}
-          </List>
-        )}
 
         <textarea
           name="content"
@@ -108,9 +101,20 @@ setShowButton(true);
           onChange={handleFieldChange}
         />
 
-{showButton && <button type="button" className={showButton ? "fly-in" : "fly-out"} onClick={handleSubmit}>
+    {showButton && <button type="button" className={showButton ? "fly-in" : "fly-out"} onClick={handleSubmit}>
  <AddIcon/> </button>}
+
       </form>
+      {noting && <NoteTemplate 
+      id={note.id}
+      title={note.title}
+      keyPoints={note.keyPoints}
+      content={note.content}
+      summary={note.summary}
+      showButton={showButton}
+      removeKeyPoint={removeKeyPoint}
+      note={note}
+      />}
     </div>
   );
 }

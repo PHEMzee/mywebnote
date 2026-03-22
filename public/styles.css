@@ -27,77 +27,13 @@ header h1 {
 footer {
   position: absolute;
   text-align: center;
-  bottom: 0;
+  margin: 20px auto;
   width: 100%;
   height: 2.5rem;
 }
 
 footer p {
   color: #ccc;
-}
-.note {
-  background: #fff;
-  border-radius: 7px;
-  box-shadow: 0 2px 5px #ccc;
-  padding: 10px;
-  /* width: 240px; */
-  margin: 16px;
-  float: left;
-  position: relative;
-}
-.note h1 {
-  font-size: 1.1em;
-  margin-bottom: 6px;
-}
-.note p {
-  font-size: 1.1em;
-  margin-bottom: 10px;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-.note button {
-  position: relative;
-  float: right;
-  margin-right: 10px;
-  color: #f5ba13;
-  border: 1px thin red;
-  width: 36px;
-  height: 36px;
-  cursor: pointer;
-  outline: none;
-}
-
-/* Styled delete button inside a note */
-.note .delete-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: none;
-  background: #fff;
-  color: #e53935;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform 160ms ease, background 160ms ease, color 160ms ease;
-}
-
-.note .delete-button:hover {
-  transform: translateY(-2px);
-  background: #f80602;
-  color: #fff;
-}
-
-.note .delete-button:active {
-  transform: translateY(0);
-}
-
-.note .delete-button:focus {
-  outline: 2px solid rgba(229,57,53,0.18);
 }
 
 form {
@@ -123,7 +59,7 @@ form button {
   position: absolute;
   right: 18px;
   bottom: -18px;
-  background: #f5ba13;
+  background: #FF5722;
   color: #fff;
   border: none;
   border-radius: 50%;
