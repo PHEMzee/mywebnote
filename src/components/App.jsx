@@ -55,8 +55,8 @@ function App() {
         {loading && <p>Loading notes...</p>}
         {error && <p style={{ color: 'red' }}>Error: {error}</p>}
         {!loading && !error && notes.length === 0 && <p>No notes found.</p>}
+        <Grid container spacing={2} sx={{ marginTop: 2, margin: 'auto', maxWidth: '100vw', justifyContent: 'space-evenly' }}>
         {notes.map((note) => (
-            <Grid Container>
               
               <Note
                 key={note._id}
@@ -67,8 +67,8 @@ function App() {
                 summary={note.summary}
                 deleteNote={deleteNote}
               />
+            ))}
             </Grid>
-        ))}
       </main>
       <Footer />
     </>
