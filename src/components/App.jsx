@@ -38,6 +38,19 @@ function App() {
     }
   };
 
+  const updateNote = async (id, updatedNote) => {
+    try {
+      const response = await axios.put(`${API_BASE}notes/${id}`, updatedNote);
+      setNotes((prevNotes) =>
+        prevNotes.map((note) => (note._id === id ? response.data : note))
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error updating note:', error);
+      throw error;
+    }
+  };
+
   const deleteNote = async (id) => {
     try {
       await axios.delete(`${API_BASE}notes/${id}`);
@@ -65,6 +78,7 @@ function App() {
                 keyPoints={note.keyPoints || []}
                 content={note.content}
                 summary={note.summary}
+                updateNote={updateNote}
                 deleteNote={deleteNote}
               />
             ))}

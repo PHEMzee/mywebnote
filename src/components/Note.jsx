@@ -1,9 +1,12 @@
 import Box from '@mui/material/Box';
-import { green, red, blue } from '@mui/material/colors';
+import { green, red, blue, orange } from '@mui/material/colors';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import EditIcon from '@mui/icons-material/Edit';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Cancel';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -13,8 +16,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Divider from '@mui/material/Divider';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
-import React, { useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import HandleImg from './HandleImg';
 
@@ -65,13 +74,77 @@ const summaryCellSx = {
   backgroundSize: '100% 24px',
 };
 
-export default function Note({ id, title, keyPoints, content, summary, deleteNote }) {
- 
+export default function Note({ id, title, keyPoints, content, summary, updateNote, deleteNote }) {
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editData, setEditData] = useState({
+    title,
+    keyPoints: Array.isArray(keyPoints) ? keyPoints.join(', ') : '',
+    content,
+    summary,
+  });
+
+  useEffect(() => {
+    setEditData({
+      title,
+      keyPoints: Array.isArray(keyPoints) ? keyPoints.join(', ') : '',
+      content,
+      summary,
+    });
+  }, [title, keyPoints, content, summary]);
+
   const { contentRef, cancelPress, startPress, handleRightClick, handleDownloadImage, handlePrint } = HandleImg({ title });
 
   const handleDelete = (e) => {
     e.preventDefault();
     deleteNote(id);
+  };
+
+  const handleEditChange = (field, value) => {
+    setEditData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleSaveEdit = async () => {
+    try {
+      const keyPointsArray = editData.keyPoints
+        .split(',')
+        .map((point) => point.trim())
+        .filter((point) => point);
+
+      const updatedNote = {
+        title: editData.title,
+        keyPoints: keyPointsArray,
+        content: editData.content,
+        summary: editData.summary,
+      };
+
+      const savedNote = await updateNote(id, updatedNote);
+      if (savedNote) {
+        setEditData({
+          title: savedNote.title || '',
+          keyPoints: Array.isArray(savedNote.keyPoints) ? savedNote.keyPoints.join(', ') : '',
+          content: savedNote.content || '',
+          summary: savedNote.summary || '',
+        });
+      }
+      setIsEditMode(false);
+    } catch (error) {
+      console.error('Failed to save note changes:', error);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditData({
+      title,
+      keyPoints: Array.isArray(keyPoints) ? keyPoints.join(', ') : '',
+      content,
+      summary,
+    });
+    setIsEditMode(false);
+  };
+
+  const handleDialogClose = (event, reason) => {
+    // Only close on Escape key, not on backdrop click
+    if (reason === 'backdropClick') return;
   };
 
 
@@ -196,11 +269,59 @@ export default function Note({ id, title, keyPoints, content, summary, deleteNot
           onClick={handleDownloadImage} />
         </IconButton>
         <Divider />
+        <IconButton sx={{ p: 0, color: orange[500] }} onClick={() => setIsEditMode(true)}>
+          <EditIcon />
+        </IconButton>
+        <Divider />
         <IconButton sx={{ p: 0, color: red[500] }}>
           <DeleteIcon 
           onClick={handleDelete} />
         </IconButton>
       </Stack>
+
+      <Dialog open={isEditMode} onClose={handleDialogClose} fullWidth maxWidth="sm" disableEscapeKeyDown>
+        <DialogTitle>Edit Note</DialogTitle>
+        <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, pt: 2 }}>
+          <TextField
+            label="Title"
+            fullWidth
+            value={editData.title}
+            onChange={(e) => handleEditChange('title', e.target.value)}
+          />
+          <TextField
+            label="Key Points (comma-separated)"
+            fullWidth
+            multiline
+            rows={3}
+            value={editData.keyPoints}
+            onChange={(e) => handleEditChange('keyPoints', e.target.value)}
+          />
+          <TextField
+            label="Content"
+            fullWidth
+            multiline
+            rows={4}
+            value={editData.content}
+            onChange={(e) => handleEditChange('content', e.target.value)}
+          />
+          <TextField
+            label="Summary"
+            fullWidth
+            multiline
+            rows={3}
+            value={editData.summary}
+            onChange={(e) => handleEditChange('summary', e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancelEdit} startIcon={<CancelIcon />}>
+            Cancel
+          </Button>
+          <Button onClick={handleSaveEdit} startIcon={<SaveIcon />} variant="contained" color="primary">
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
