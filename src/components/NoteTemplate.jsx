@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
-import ListItem from "@mui/material/ListItem";
+import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -9,16 +8,9 @@ import TableCell from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';  
+import TableRow from '@mui/material/TableRow';
 import IconButton from '@mui/material/IconButton';
-import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
-import { green, red } from '@mui/material/colors';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import Stack from '@mui/material/Stack';
 
 
 const tableContainerSx = {
@@ -64,7 +56,7 @@ const summaryCellSx = {
   backgroundSize: '100% 24px',
 };
 
-export default function NoteTemplate ({ id, note, title, keyPoints, content, summary, showButton, handleSubmit, removeKeyPoint }) {
+export default function NoteTemplate ({ note, title, content, summary, removeKeyPoint }) {
 return (
         <Box
           sx={{
@@ -121,15 +113,7 @@ return (
 
                             )}
                     
-        {/* {keyPoints && keyPoints.length > 0 ? (
-                      <ul>
-                        {keyPoints.map((point, idx) => (
-                          <li key={`${id}-kp-${idx}`}>{point}</li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p style={{ fontStyle: 'italic' }}>No key points added</p>
-                    )} */}
+
                   </TableCell>
                   <TableCell
                     sx={{
@@ -157,27 +141,6 @@ return (
                 </TableRow>
               </TableBody>
             </Table>
-          </TableContainer>
-          {/* <Stack
-            direction="column"
-            spacing={0.5}
-            sx={{
-              top: 0,
-              right: '0',
-              margin: 0,
-              border: '2px solid rgba(224, 224, 224, 7)',
-              boxShadow: '5',
-            }}
-          >
-            <IconButton sx={{ p: 0, color: green[500] }}>
-              <FileDownloadIcon onClick={handlePrint} />
-            </IconButton>
-            <Divider />
-            <IconButton sx={{ p: 0, color: red[500] }}>
-              <DeleteIcon 
-              onClick={handleDelete} />
-            </IconButton>
-          </Stack> */}
-        </Box>
+          </TableContainer>       </Box>
 )
 }

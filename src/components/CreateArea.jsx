@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
-import NoteTemplate from './NoteTemplate';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
 import Divider from '@mui/material/Divider';
+import AddIcon from '@mui/icons-material/Add';
+
+import NoteTemplate from './NoteTemplate';
 
 
-function CreateArea(props) {
+function CreateArea({ addNote }) {
   const [note, setNote] = useState({
     title: '',
     keyPoints: [],
@@ -17,31 +13,34 @@ function CreateArea(props) {
     summary: '',
   });
   const [currentPoint, setCurrentPoint] = useState('');
-  const [pointAdded, setPointAdded] = useState("none");
   const [showButton, setShowButton] = useState(false);
   const [noting, setNoting] = useState(false);
 
   const handleFieldChange = (event) => {
-setShowButton(true);
     const { name, value } = event.target;
+
+    setShowButton(true);
     setNoting(true);
     setNote((prev) => ({ ...prev, [name]: value }));
   };
 
   const handlePointInputChange = (event) => {
-setShowButton(true);
     setCurrentPoint(event.target.value);
-    setPointAdded("block");
+    setShowButton(true);
     setNoting(true);
   };
 
   const addKeyPoint = (event) => {
     event.preventDefault();
+
     const trimmed = currentPoint.trim();
     if (!trimmed) return;
-    setNote((prev) => ({ ...prev, keyPoints: [...prev.keyPoints, trimmed] }));
+
+    setNote((prev) => ({
+      ...prev,
+      keyPoints: [...prev.keyPoints, trimmed],
+    }));
     setCurrentPoint('');
-    setPointAdded("none");
   };
 
   const removeKeyPoint = (index) => {
@@ -54,7 +53,8 @@ setShowButton(true);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    props.addNote(note);
+
+    addNote(note);
     setNote({ title: '', keyPoints: [], content: '', summary: '' });
     setCurrentPoint('');
     setShowButton(false);
@@ -63,25 +63,22 @@ setShowButton(true);
 
   // Handle CreateArea Text compose new line on Shift + Enter
   const handleNewLineText = (event) => {
-    if (event.key === "Enter" && event.shiftKey) {
+    if (event.key === 'Enter' && event.shiftKey) {
       event.preventDefault();
-      
+
       const textarea = event.target;
       const { name, value } = textarea;
       const cursorPos = textarea.selectionStart;
-      
-      // Insert newline at cursor position
-      const newValue = value.slice(0, cursorPos) + '\n' + value.slice(cursorPos);
-      
-      // Update state
+      const newValue = `${value.slice(0, cursorPos)}\n${value.slice(cursorPos)}`;
+
       setNote((prev) => ({ ...prev, [name]: newValue }));
-      
-      // Restore cursor position after state update
+
       setTimeout(() => {
-        textarea.selectionStart = textarea.selectionEnd = cursorPos + 1;
+        textarea.selectionStart = cursorPos + 1;
+        textarea.selectionEnd = cursorPos + 1;
       }, 0);
     }
-  }
+  };
 
   return (
     <div className="create-area">
@@ -93,19 +90,24 @@ setShowButton(true);
           onChange={handleFieldChange}
         />
 
-        <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+        <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem', alignItems: 'center' }}>
           <input
             name="keyPoint"
             placeholder="Add key point"
             value={currentPoint}
             onChange={handlePointInputChange}
           />
-          <ListItemButton variant="contained"  size="small" style={{display: {pointAdded}}} onClick={addKeyPoint}>
-          <AddIcon  fontSize="inherit" />
-          </ListItemButton>
-          
+          <button
+            type="button"
+            onClick={addKeyPoint}
+            aria-label="Add key point"
+            style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+          >
+            <AddIcon fontSize="small" />
+          </button>
         </div>
-<Divider style={{ margin: '0.5rem 0' }} />
+
+        <Divider style={{ margin: '0.5rem 0' }} />
 
         <textarea
           name="content"
@@ -126,20 +128,25 @@ setShowButton(true);
           style={{whiteSpace: 'pre-wrap'}}
         />
 
-    {showButton && <button type="button" className={showButton ? "fly-in" : "fly-out"} onClick={handleSubmit}>
- <AddIcon/> </button>}
+        {showButton && (
+          <button type="button" className={showButton ? 'fly-in' : 'fly-out'} onClick={handleSubmit}>
+            <AddIcon />
+          </button>
+        )}
 
       </form>
-      {noting && <NoteTemplate 
-      id={note.id}
-      title={note.title}
-      keyPoints={note.keyPoints}
-      content={note.content}
-      summary={note.summary}
-      showButton={showButton}
-      removeKeyPoint={removeKeyPoint}
-      note={note}
-      />}
+      {noting && (
+        <NoteTemplate
+          id={note.id}
+          title={note.title}
+          keyPoints={note.keyPoints}
+          content={note.content}
+          summary={note.summary}
+          showButton={showButton}
+          removeKeyPoint={removeKeyPoint}
+          note={note}
+        />
+      )}
     </div>
   );
 }

@@ -1,62 +1,72 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Note from "./Note";
-import Header from "./Header";
-import Footer from "./Footer";
-import CreateArea from "./CreateArea";
+import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
+
+import Note from './Note';
+import Header from './Header';
+import Footer from './Footer';
+import CreateArea from './CreateArea';
+import { createNote, deleteNote as deleteNoteApi, fetchNotes, updateNote as updateNoteApi } from '../api/notesApi';
 
 function App() {
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const API_BASE = "/"; // using proxy in package.json
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    async function loadNotes() {
+    let isMounted = true;
+
+    const loadNotes = async () => {
       setLoading(true);
-      setError("");
+      setError('');
+
       try {
-        const response = await axios.get(`${API_BASE}notes`);
-        setNotes(response.data);
-      } catch (error) {
-        console.error('Error fetching notes:', error);
-        setError(error?.response?.data?.message || error.message || 'Failed to fetch notes.');
+        const data = await fetchNotes();
+        if (isMounted) setNotes(data);
+      } catch (err) {
+        console.error('Error fetching notes:', err);
+        if (isMounted) {
+          setError(err?.response?.data?.message || err.message || 'Failed to fetch notes.');
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
-    }
+    };
+
     loadNotes();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const addNote = async (note) => {
     try {
-      const response = await axios.post(`${API_BASE}notes`, note);
-      setNotes((prevNotes) => [response.data, ...prevNotes]);
-    } catch (error) {
-      console.error('Error saving note:', error);
+      const savedNote = await createNote(note);
+      setNotes((prevNotes) => [savedNote, ...prevNotes]);
+    } catch (err) {
+      console.error('Error saving note:', err);
     }
   };
 
   const updateNote = async (id, updatedNote) => {
     try {
-      const response = await axios.put(`${API_BASE}notes/${id}`, updatedNote);
+      const savedNote = await updateNoteApi(id, updatedNote);
       setNotes((prevNotes) =>
-        prevNotes.map((note) => (note._id === id ? response.data : note))
+        prevNotes.map((note) => (note._id === id ? savedNote : note))
       );
-      return response.data;
-    } catch (error) {
-      console.error('Error updating note:', error);
-      throw error;
+      return savedNote;
+    } catch (err) {
+      console.error('Error updating note:', err);
+      throw err;
     }
   };
 
   const deleteNote = async (id) => {
     try {
-      await axios.delete(`${API_BASE}notes/${id}`);
+      await deleteNoteApi(id);
       setNotes((prevNotes) => prevNotes.filter((note) => note._id !== id));
-    } catch (error) {
-      console.error('Error deleting note:', error);
+    } catch (err) {
+      console.error('Error deleting note:', err);
     }
   };
 
