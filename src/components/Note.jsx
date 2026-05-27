@@ -19,6 +19,8 @@ import { useReactToPrint } from 'react-to-print';
 
 import HandleImg from './HandleImg';
 
+
+
 const tableContainerSx = {
   width: 450,
   whiteSpace: 'normal',
@@ -45,6 +47,7 @@ const linedCellSx = {
   borderLeft: '2px solid #ffcccc',
   lineHeight: '24px',
   textWrap: 'wrap',
+  whiteSpace: 'pre-wrap',
   height: 200,
   backgroundColor: '#ffffff',
   backgroundImage: 'linear-gradient(#87CEEB 1px, transparent 1px)',
@@ -56,6 +59,7 @@ const summaryCellSx = {
   ...cellBaseSx,
   height: 100,
   borderRight: 0,
+  whiteSpace: 'pre-wrap',
   backgroundColor: '#ffffff',
   backgroundImage: 'linear-gradient(#87CEEB 1px, transparent 1px)',
   backgroundAttachment: 'local',
@@ -127,7 +131,9 @@ const handlePrint = useReactToPrint({ contentRef, documentTitle: `${title}-${new
                 }}
               >
     {keyPoints && keyPoints.length > 0 ? (
-                  <ul>
+                  <ul style={{
+    justifySelf: 'anchor-center'
+}}>
                     {keyPoints.map((point, idx) => (
                       <span key={`${id}-kp-${idx}`}>
                       <li><strong>{point}</strong></li>

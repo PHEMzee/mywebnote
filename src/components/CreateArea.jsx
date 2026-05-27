@@ -63,15 +63,24 @@ setShowButton(true);
 
   // Handle CreateArea Text compose new line on Shift + Enter
   const handleNewLineText = (event) => {
-     if (event.key === "Enter") {
-    
-    // 2. Modifier Key Tracking Flags
-    if (event.shiftKey) {
-      event.preventDefault(); // Prevent form submission
-      const tag = event.target.value += '\n'; // Insert newline at cursor position
-
+    if (event.key === "Enter" && event.shiftKey) {
+      event.preventDefault();
+      
+      const textarea = event.target;
+      const { name, value } = textarea;
+      const cursorPos = textarea.selectionStart;
+      
+      // Insert newline at cursor position
+      const newValue = value.slice(0, cursorPos) + '\n' + value.slice(cursorPos);
+      
+      // Update state
+      setNote((prev) => ({ ...prev, [name]: newValue }));
+      
+      // Restore cursor position after state update
+      setTimeout(() => {
+        textarea.selectionStart = textarea.selectionEnd = cursorPos + 1;
+      }, 0);
     }
-  }
   }
 
   return (
