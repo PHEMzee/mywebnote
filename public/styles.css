@@ -3,9 +3,11 @@
   margin: 0;
   box-sizing: border-box;
 }
+
 html {
   font-family: "Montserrat", sans-serif;
 }
+
 body {
   background: #eee;
   padding: 0;
@@ -22,6 +24,20 @@ header h1 {
   color: #fff;
   font-family: "McLaren", cursive;
   font-weight: 200;
+}
+
+h2 {
+  color: navy;
+}
+
+#titleTitle {
+  color: black;
+  display: block;
+  font-size: 1.5em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+  unicode-bidi: isolate;
 }
 
 footer {
@@ -45,6 +61,7 @@ form {
   border-radius: 7px;
   box-shadow: 0 1px 5px rgb(138, 137, 137);
 }
+
 form input,
 form textarea {
   width: 100%;
@@ -55,6 +72,7 @@ form textarea {
   font-family: inherit;
   resize: none;
 }
+
 form button {
   position: absolute;
   right: 18px;
@@ -76,6 +94,7 @@ form button {
     transform: translateY(18px) scale(0.95);
     opacity: 0;
   }
+
   to {
     transform: translateY(0) scale(1);
     opacity: 1;
@@ -83,14 +102,16 @@ form button {
 }
 
 .fly-in {
-  animation: flyIn 1000ms cubic-bezier(.22,.9,.32,1) both;
+  animation: flyIn 1000ms cubic-bezier(.22, .9, .32, 1) both;
 }
+
 /* Fly-out animation for the submit button */
 @keyframes flyOut {
   from {
     transform: translateY(0) scale(1);
     opacity: 1;
   }
+
   to {
     transform: translateY(18px) scale(0.95);
     opacity: 0;
@@ -98,5 +119,5 @@ form button {
 }
 
 .fly-out {
-  animation: flyOut 1000ms cubic-bezier(.22,.9,.32,1) both;
+  animation: flyOut 1000ms cubic-bezier(.22, .9, .32, 1) both;
 }

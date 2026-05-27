@@ -61,6 +61,19 @@ setShowButton(true);
     setNoting(false);
   };
 
+  // Handle CreateArea Text compose new line on Shift + Enter
+  const handleNewLineText = (event) => {
+     if (event.key === "Enter") {
+    
+    // 2. Modifier Key Tracking Flags
+    if (event.shiftKey) {
+      event.preventDefault(); // Prevent form submission
+      const tag = event.target.value += '\n'; // Insert newline at cursor position
+
+    }
+  }
+  }
+
   return (
     <div className="create-area">
       <form onSubmit={handleSubmit}>
@@ -91,6 +104,8 @@ setShowButton(true);
           rows="3"
           value={note.content}
           onChange={handleFieldChange}
+          onKeyDown={handleNewLineText}
+          style={{whiteSpace: 'pre-wrap'}}
         />
 
         <textarea
@@ -99,6 +114,7 @@ setShowButton(true);
           rows="2"
           value={note.summary}
           onChange={handleFieldChange}
+          style={{whiteSpace: 'pre-wrap'}}
         />
 
     {showButton && <button type="button" className={showButton ? "fly-in" : "fly-out"} onClick={handleSubmit}>

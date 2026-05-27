@@ -1,7 +1,8 @@
 import Box from '@mui/material/Box';
-import { green, red } from '@mui/material/colors';
+import { green, red, blue } from '@mui/material/colors';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
@@ -15,6 +16,8 @@ import Divider from '@mui/material/Divider';
 
 import React, { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
+
+import HandleImg from './HandleImg';
 
 const tableContainerSx = {
   width: 450,
@@ -60,6 +63,8 @@ const summaryCellSx = {
 };
 
 export default function Note({ id, title, keyPoints, content, summary, deleteNote }) {
+  const { divRef, cancelPress, startPress, handleRightClick, handleDownloadImage } = HandleImg();
+
   const handleDelete = (e) => {
     e.preventDefault();
     deleteNote(id);
@@ -70,6 +75,13 @@ const handlePrint = useReactToPrint({ contentRef, documentTitle: `${title}-${new
 
  return (    
     <Box
+      ref={divRef}
+      onContextMenu={handleRightClick}
+      onMouseDown={startPress}
+      onMouseUp={cancelPress}
+      onMouseLeave={cancelPress}
+      onTouchStart={startPress}
+      onTouchEnd={cancelPress}
       sx={{
         display: 'flex',
         justifyContent: 'center',
@@ -77,18 +89,27 @@ const handlePrint = useReactToPrint({ contentRef, documentTitle: `${title}-${new
         position: 'relative',
         marginBottom: '1em',
       }}
+      
     >
       <TableContainer ref={contentRef} component={Paper} sx={tableContainerSx}>
         <Table sx={{ tableLayout: 'fixed' }}>
           <TableHead style={{ backgroundColor: '#13c8f5' }}>
             <TableRow>
               <TableCell sx={{ ...cellBaseSx, width: '25%' }}>
-                <h3 style={{ margin: '0' }}>Key Points</h3>
+                <h2 style={{ margin: '0', textAlign: 'center' }}>Key Points</h2>
               </TableCell>
               <TableCell sx={{ ...cellBaseSx, width: '70%' }}>
-                <h2 style={{ margin: 0, padding: 0 }}>
-                  Title: <span> {title}</span>
+                <table style={{ width: '100%', gap: 2, borderCollapse: 'separate', borderSpacing: '10px 0' }}>
+<tbody><tr>
+
+                <td style={{ padding: 0, border: 'none', alignContent: 'flex-start' }}> 
+                <h2 style={{ margin: 0, padding: 0, textWrap: 'nowrap' }}>Title:
                 </h2>
+                </td>
+                <td><span id='titleTitle'>{title}</span>
+                </td></tr>
+</tbody>
+                </table>
               </TableCell>
             </TableRow>
           </TableHead>
@@ -99,6 +120,7 @@ const handlePrint = useReactToPrint({ contentRef, documentTitle: `${title}-${new
               <TableCell
                 sx={{
                   ...cellBaseSx,
+                  lineHeight: '24px', 
                   height: 320,
                   paddingTop: 0.2,
                   borderRight: 'none',
@@ -107,7 +129,10 @@ const handlePrint = useReactToPrint({ contentRef, documentTitle: `${title}-${new
     {keyPoints && keyPoints.length > 0 ? (
                   <ul>
                     {keyPoints.map((point, idx) => (
-                      <li key={`${id}-kp-${idx}`}>{point}</li>
+                      <span key={`${id}-kp-${idx}`}>
+                      <li><strong>{point}</strong></li>
+                      <Divider />
+                      </span>
                     ))}
                   </ul>
                 ) : (
@@ -156,6 +181,11 @@ const handlePrint = useReactToPrint({ contentRef, documentTitle: `${title}-${new
       >
         <IconButton sx={{ p: 0, color: green[500] }}>
           <FileDownloadIcon onClick={handlePrint} />
+        </IconButton>
+        <Divider />
+        <IconButton sx={{ p: 0, color: blue[500] }}>
+          <AddPhotoAlternateIcon 
+          onClick={handleDownloadImage} />
         </IconButton>
         <Divider />
         <IconButton sx={{ p: 0, color: red[500] }}>

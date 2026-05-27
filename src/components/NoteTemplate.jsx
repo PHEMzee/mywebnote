@@ -136,8 +136,7 @@ return (
                       ...linedCellSx,
                       paddingTop: 0.2,
                     }}
-                  >
-                    {content}
+                  >{content}
                   </TableCell>
                 </TableRow>
     
