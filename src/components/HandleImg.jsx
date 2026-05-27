@@ -1,19 +1,22 @@
 import React, { useRef } from 'react';
 import html2canvas from 'html2canvas';
+import { useReactToPrint } from 'react-to-print';
 
-export default function HandleImg () {
-  const divRef = useRef(null);
 
+export default function HandleImg ({ title }) {
+  const contentRef = useRef(null);
+
+  const handlePrint = useReactToPrint({ contentRef: contentRef, documentTitle: `${title}-${new Date().toISOString().split('T')[0]}` });
   // Core capture and download logic
   const handleDownloadImage = async () => {
-    if (!divRef.current) return;
+    if (!contentRef.current) return;
     try {
-      const canvas = await html2canvas(divRef.current, { useCORS: true });
+      const canvas = await html2canvas(contentRef.current, { useCORS: true });
       const dataUrl = canvas.toDataURL('image/png');
       
       const link = document.createElement('a');
       link.href = dataUrl;
-      link.download = 'div-image.png';
+      link.download = `${title}-${new Date().toISOString().split('T')[0]}.png`;
       link.click();
     } catch (err) {
       console.error('Failed to capture div:', err);
@@ -42,10 +45,11 @@ export default function HandleImg () {
   };
 
   return {
-    divRef,
+    contentRef,
     cancelPress,
     startPress,
     handleRightClick,
-    handleDownloadImage
+    handleDownloadImage,
+    handlePrint
   };
 }
