@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import Divider from '@mui/material/Divider';
+import AddTaskIcon from '@mui/icons-material/AddTask';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 import AddIcon from '@mui/icons-material/Add';
 
 import NoteTemplate from './NoteTemplate';
@@ -15,6 +18,7 @@ function CreateArea({ addNote }) {
   const [currentPoint, setCurrentPoint] = useState('');
   const [showButton, setShowButton] = useState(false);
   const [noting, setNoting] = useState(false);
+  const [addPoints, setAddPoints] = useState(false);
 
   const handleFieldChange = (event) => {
     const { name, value } = event.target;
@@ -25,7 +29,10 @@ function CreateArea({ addNote }) {
   };
 
   const handlePointInputChange = (event) => {
-    setCurrentPoint(event.target.value);
+    const { value } = event.target;
+    setCurrentPoint(value);
+    setAddPoints(value.length > 0);
+
     setShowButton(true);
     setNoting(true);
   };
@@ -83,6 +90,7 @@ function CreateArea({ addNote }) {
   return (
     <div className="create-area">
       <form onSubmit={handleSubmit}>
+        <h4 style={{justifySelf: 'center', marginBottom: '5px'}}>Type new notes here...</h4>
         <input
           name="title"
           placeholder="Title"
@@ -93,18 +101,25 @@ function CreateArea({ addNote }) {
         <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem', alignItems: 'center' }}>
           <input
             name="keyPoint"
-            placeholder="Add key point"
+            placeholder="Add key point and press Enter"
             value={currentPoint}
             onChange={handlePointInputChange}
-          />
-          <button
-            type="button"
-            onClick={addKeyPoint}
-            aria-label="Add key point"
-            style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+          />{ addPoints && (
+          <Tooltip 
+          title="Add To Point List"
+          placement="top-end"
+          offset={[0, 10]}
           >
-            <AddIcon fontSize="small" />
-          </button>
+          <IconButton
+            onClick={addKeyPoint}
+            aria-label="Add To Point List"
+            color="primary"
+            bottom="auto"
+          >
+            <AddTaskIcon fontSize="small" />
+            
+          </IconButton>
+          </Tooltip>)}
         </div>
 
         <Divider style={{ margin: '0.5rem 0' }} />
@@ -129,7 +144,9 @@ function CreateArea({ addNote }) {
         />
 
         {showButton && (
-          <button type="button" className={showButton ? 'fly-in' : 'fly-out'} onClick={handleSubmit}>
+          <button 
+          id="formBtn"
+          type="button" className={showButton ? 'fly-in' : 'fly-out'} onClick={handleSubmit}>
             <AddIcon />
           </button>
         )}

@@ -73,7 +73,7 @@ form textarea {
   resize: none;
 }
 
-form button {
+#formBtn {
   position: absolute;
   right: 18px;
   bottom: -18px;
