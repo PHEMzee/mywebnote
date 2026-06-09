@@ -73,11 +73,11 @@ function App() {
   return (
     <>
       <Header />
-      <main>
+      <main className="page-container">
         <CreateArea addNote={addNote} />
-        {loading && <p textAlign="center">Loading notes...</p>}
+        {loading && <p>Loading notes...</p>}
         {error && <p style={{ color: 'red', textAlign: 'center' }}>Error: {error}</p>}
-        {!loading && !error && notes.length === 0 && <p textAlign="center">No notes found.</p>}
+        {!loading && !error && notes.length === 0 && <p>No notes found.</p>}
         <Grid container spacing={2} sx={{ marginTop: 2, margin: 'auto', maxWidth: '100vw', justifyContent: 'space-evenly' }}>
         {notes.map((note) => (
               
