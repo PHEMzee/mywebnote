@@ -76,7 +76,7 @@ function App() {
       <main>
         <CreateArea addNote={addNote} />
         {loading && <p>Loading notes...</p>}
-        {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+        {error && <p style={{ color: 'red', justifySelf: 'center' }}>Error: {error}</p>}
         {!loading && !error && notes.length === 0 && <p>No notes found.</p>}
         <Grid container spacing={2} sx={{ marginTop: 2, margin: 'auto', maxWidth: '100vw', justifyContent: 'space-evenly' }}>
         {notes.map((note) => (

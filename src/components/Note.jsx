@@ -92,7 +92,11 @@ export default function Note({ id, title, keyPoints, content, summary, updateNot
     });
   }, [title, keyPoints, content, summary]);
 
-  const { contentRef, cancelPress, startPress, handleRightClick, handleDownloadImage, handlePrint } = HandleImg({ title });
+  const { 
+    contentRef, 
+    // cancelPress, 
+    // startPress, 
+    handleRightClick, handleDownloadImage, handlePrint } = HandleImg({ title });
 
   const handleDelete = (e) => {
     e.preventDefault();
@@ -164,11 +168,11 @@ export default function Note({ id, title, keyPoints, content, summary, updateNot
       <TableContainer 
             ref={contentRef}
       onContextMenu={handleRightClick}
-      onMouseDown={startPress}
-      onMouseUp={cancelPress}
-      onMouseLeave={cancelPress}
-      onTouchStart={startPress}
-      onTouchEnd={cancelPress}
+      // onMouseDown={startPress}
+      // onMouseUp={cancelPress}
+      // onMouseLeave={cancelPress}
+      // onTouchStart={startPress}
+      // onTouchEnd={cancelPress}
       component={Paper}
       sx={tableContainerSx}>
         <Table sx={{ tableLayout: 'fixed' }}>

@@ -30,24 +30,24 @@ export default function HandleImg ({ title }) {
   };
 
   // Custom Long Press Logic (Mobile/Touch)
-  const longPressTimer = useRef(null);
+  // const longPressTimer = useRef(null);
   
-  const startPress = () => {
-    longPressTimer.current = setTimeout(() => {
-      handleDownloadImage();
-    }, 600); // Trigger after 600ms of holding
-  };
+  // const startPress = () => {
+  //   longPressTimer.current = setTimeout(() => {
+  //     handleDownloadImage();
+  //   }, 600); // Trigger after 600ms of holding
+  // };
 
-  const cancelPress = () => {
-    if (longPressTimer.current) {
-      clearTimeout(longPressTimer.current);
-    }
-  };
+  // const cancelPress = () => {
+  //   if (longPressTimer.current) {
+  //     clearTimeout(longPressTimer.current);
+  //   }
+  // };
 
   return {
     contentRef,
-    cancelPress,
-    startPress,
+    // cancelPress,
+    // startPress,
     handleRightClick,
     handleDownloadImage,
     handlePrint
